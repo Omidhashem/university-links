@@ -1,0 +1,308 @@
+/* =========================================
+   متغیرهای CSS (Dark & Elegant Theme)
+   ========================================
+*/
+:root {
+    /* رنگ‌های اصلی */
+    --color-primary: #1e87f0; /* آبی فیروزه‌ای قوی برای تمرکز (Stripe's Blue) */
+    --color-accent: #00c9b1; /* سبز روشن برای دکمه‌های کانال */
+    --color-telegram: #0088cc; /* رنگ تلگرام */
+    --color-text-main: #f0f0f0; /* متن سفید/روشن */
+    --color-text-secondary: #a0a0a0; /* متن ثانویه */
+    --color-bg-deep: #0e1014; /* پس‌زمینه اصلی (مانند Awwwards یا Dashboards) */
+    --color-bg-card: rgba(255, 255, 255, 0.05); /* پس‌زمینه شیشه‌ای شفاف */
+    --color-border-subtle: rgba(255, 255, 255, 0.1); /* خط جداکننده شیشه‌ای */
+
+    /* تنظیمات ظاهری */
+    --shadow-depth: 0 10px 30px rgba(0, 0, 0, 0.5); /* سایه عمیق برای عمق دادن */
+    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.7); 
+    --radius-large: 16px;
+    --font-main: 'Vazirmatn', sans-serif;
+}
+
+/* ریست اولیه */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg-deep);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    direction: rtl;
+    min-height: 100vh;
+}
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* =========================================
+   هدر و ناوبری (Header & Navigation)
+   =========================================
+*/
+.main-header {
+    background-color: rgba(14, 16, 20, 0.95);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    letter-spacing: -1px;
+}
+
+.nav-link {
+    color: var(--color-text-main);
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 0; 
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: rgba(30, 135, 240, 0.1);
+    color: var(--color-primary);
+}
+
+
+/* =========================================
+   بخش Hero (عنوان اصلی)
+   =========================================
+*/
+.hero-section {
+    text-align: center;
+    padding: 80px 0 60px;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+    color: var(--color-text-main);
+    line-height: 1.2;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   شبکه کارت‌های دروس (Course Grid)
+   =========================================
+*/
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    padding-bottom: 80px;
+}
+
+.course-card {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-large);
+    padding: 30px;
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: var(--shadow-depth);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--card-accent, var(--color-primary));
+}
+
+.card-header {
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--color-border-subtle);
+    padding-bottom: 15px;
+}
+
+.course-card h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--card-accent, var(--color-primary));
+}
+
+.course-code {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-top: 5px;
+}
+
+.professor-list {
+    list-style: none;
+    padding: 0;
+}
+
+.professor-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.professor-item:last-child {
+    border-bottom: none;
+}
+
+.professor-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.professor-info span {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.link-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.link-button {
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    color: var(--color-bg-deep); /* رنگ متن ثابت تیره */
+}
+
+.group-link {
+    background-color: var(--color-primary);
+    box-shadow: 0 4px 15px rgba(30, 135, 240, 0.4);
+}
+
+.group-link:hover {
+    background-color: #3b9af5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 135, 240, 0.6);
+}
+
+.channel-link {
+    background-color: var(--color-accent);
+    box-shadow: 0 4px 15px rgba(0, 201, 177, 0.4);
+}
+
+.channel-link:hover {
+    background-color: #00e0b3;
+    transform: scale(1.05);
+}
+
+/* =========================================
+   فوتر (Footer)
+   =========================================
+*/
+footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto; 
+    border-top: 1px solid var(--color-border-subtle);
+    background-color: var(--color-bg-deep);
+}
+
+/* استایل بخش جدید تماس با ما */
+.contact-section {
+    max-width: 600px;
+    margin: 0 auto 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.contact-section p {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.telegram-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    background-color: var(--color-telegram);
+    color: white;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.6);
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.telegram-link i {
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+
+.telegram-link:hover {
+    background-color: #0077b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.8);
+}
+
+/* استایل متن کپی‌رایت */
+.copyright-text {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-top: 20px;
+}
+
+
+/* =========================================
+   ریسپانسیو (Mobile Adjustments)
+   =========================================
+*/
+@media (max-width: 992px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .course-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .main-header .container {
+        /* در این حالت، لوگو و لینک زیر هم قرار می‌گیرند */
+        flex-direction: column;
+        gap: 10px;
+    }
+}
