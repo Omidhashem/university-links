@@ -1,0 +1,122 @@
+/* تنظیمات کلی صفحه */
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl;
+    background-color: #f4f7f6; /* رنگ پس‌زمینه خاکستری خیلی روشن */
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* هدر و عنوان اصلی */
+header {
+    background-color: #004a99; /* رنگ آبی دانشگاهی */
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 1rem;
+}
+
+/* بخش اصلی محتوا */
+main {
+    max-width: 800px;
+    margin: 20px auto; /* محتوا را وسط‌چین می‌کند */
+    padding: 0 15px;
+}
+
+/* کارت هر درس */
+.course-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.course-card h2 {
+    border-bottom: 2px solid #004a99;
+    padding-bottom: 10px;
+    margin-top: 0;
+    color: #004a99;
+}
+
+/* لیست استادها */
+.professor-list {
+    list-style: none;
+    padding: 0;
+}
+
+.professor-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* متن و دکمه‌ها را از هم جدا می‌کند */
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* آخرین آیتم خط زیرین نداشته باشد */
+.professor-list li:last-child {
+    border-bottom: none;
+}
+
+.professor-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* دکمه لینک‌ها */
+.link-button {
+    background-color: #007bff; /* رنگ آبی تلگرام */
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    margin-left: 5px; /* فاصله بین دکمه‌ها */
+}
+
+.link-button:hover {
+    background-color: #0056b3;
+}
+
+/* دکمه مخصوص کانال (رنگ متفاوت) */
+.link-button.channel {
+    background-color: #28a745; /* رنگ سبز */
+}
+
+.link-button.channel:hover {
+    background-color: #218838;
+}
+
+/* فوتر یا پانویس */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* برای نمایش بهتر در موبایل */
+@media (max-width: 600px) {
+    .professor-list li {
+        flex-direction: column; /* در موبایل، آیتم‌ها زیر هم قرار می‌گیرند */
+        align-items: flex-start;
+    }
+
+    .link-button {
+        margin-top: 10px;
+    }
+}
