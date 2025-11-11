@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پورتال لینک‌های آموزشی</title>
+    <!-- فونت Vazirmatn (فارسی) و Merriweather (لوگو لاتین) -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Vazirmatn:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           بخش CSS: متغیرها و استایل‌های اصلی (این بخش قبلاً در style.css بود)
+           ========================================
+        */
+        :root {
+            /* رنگ‌های اصلی تم تیره */
+            --color-primary: #1e87f0; /* آبی برجسته */
+            --color-accent: #00c9b1; /* فیروزه‌ای برای دکمه لینک */
+            --color-text-main: #f0f0f0; 
+            --color-text-secondary: #a0a0a0; 
+            --color-bg-deep: #0e1014; /* پس‌زمینه تیره */
+            --color-bg-card: rgba(255, 255, 255, 0.05); /* پس‌زمینه شفاف کارت‌ها */
+            --color-border-subtle: rgba(255, 255, 255, 0.1); 
+
+            /* تنظیمات ظاهری */
+            --shadow-depth: 0 10px 30px rgba(0, 0, 0, 0.5); 
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.7); 
+            --radius-large: 16px;
+            --font-main: 'Vazirmatn', sans-serif;
+        }
+
+        /* ریست اولیه */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 100vh;
+            /* انیمیشن محو شونده هنگام بارگذاری */
+            opacity: 0;
+            animation: pageLoadFadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes pageLoadFadeIn {
+            to { opacity: 1; }
+        }
+        
+        .site-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* مدیریت صفحات Single Page Application */
+        .app-page {
+            display: none;
+            padding: 40px 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .app-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================
+           هدر و لوگو (وسط چین)
+           ========================================
+        */
+        .main-header {
+            background-color: rgba(14, 16, 20, 0.95);
+            border-bottom: 1px solid var(--color-border-subtle);
+            padding: 18px 0;
+            position: sticky; 
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .main-header .container {
+            /* چیدمان ستونی و وسط‌چین برای لوگو و جستجو */
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            gap: 15px; 
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--color-primary);
+            cursor: pointer;
+            transition: color 0.3s;
+            /* فونت درخواستی: Azad cs link */
+            font-family: 'Merriweather', serif; 
+        }
+        
+        /* دکمه بازگشت */
+        .back-button {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        .back-button:hover {
+            color: var(--color-primary);
+        }
+
+        /* ========================================
+           بخش جستجو (Search)
+           ========================================
+        */
+        .search-area {
+            display: flex;
+            align-items: center;
+            max-width: 500px;
+            width: 100%; /* مطمئن می‌شویم در موبایل تمام عرض را بگیرد */
+            margin: 0; 
+            position: relative;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            color: var(--color-text-main);
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--color-border-subtle);
+            border-radius: 10px;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        #search-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(30, 135, 240, 0.3);
+        }
+
+        #search-results {
+            position: absolute;
+            top: 100%; 
+            left: 0;
+            right: 0;
+            background-color: #1a1a1a;
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 0 0 10px 10px;
+            box-shadow: var(--shadow-depth);
+            z-index: 90;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        .result-item:hover, .result-item:focus {
+            background-color: rgba(30, 135, 240, 0.1); /* Hover style */
+        }
+        
+        /* ========================================
+           صفحه اصلی: دکمه‌های دسته‌بندی
+           ========================================
+        */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding-top: 50px;
+        }
+
+        .category-button {
+            background-color: var(--color-bg-card);
+            border-radius: var(--radius-large);
+            padding: 40px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+            border: 1px solid var(--color-border-subtle);
+            box-shadow: var(--shadow-depth);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .category-button:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--color-primary);
+        }
+
+        /* ========================================
+           صفحه لیست دروس و استادان
+           ========================================
+        */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding-top: 20px;
+        }
+        
+        .course-tile {
+            /* استایل کارت درس */
+            background-color: var(--color-bg-card);
+            border-radius: var(--radius-large);
+            padding: 25px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            border: 1px solid var(--color-border-subtle);
+            box-shadow: var(--shadow-depth);
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .course-tile:hover {
+             background-color: rgba(255, 255, 255, 0.1);
+             transform: translateY(-4px);
+             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+        .course-tile .code {
+            display: block;
+            font-size: 0.8em;
+            color: var(--color-text-secondary);
+            margin-top: 5px;
+        }
+        
+        .professor-list {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 30px auto 0;
+        }
+        
+        .professor-item {
+            /* استایل کارت استاد */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background-color: var(--color-bg-card);
+            border-radius: var(--radius-large);
+            margin-bottom: 15px;
+            border: 1px solid var(--color-border-subtle);
+            transition: background-color 0.3s;
+        }
+        .professor-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .professor-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        .professor-info span {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .professor-link {
+            /* دکمه لینک گروه/کانال */
+            text-decoration: none;
+            color: var(--color-bg-deep); /* متن تیره روی فیروزه‌ای */
+            background-color: var(--color-accent);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 201, 177, 0.4);
+        }
+        .professor-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 201, 177, 0.6);
+        }
+        
+        /* ========================================
+           فوتر و ریسپانسیو
+           ========================================
+        */
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            border-top: 1px solid var(--color-border-subtle);
+            background-color: var(--color-bg-deep);
+            margin-top: auto; /* برای چسبیدن به پایین در تمام صفحات */
+            color: var(--color-text-secondary);
+        }
+        footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 1.2rem;
+            padding: 40px;
+        }
+
+        /* ریسپانسیو برای موبایل */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            .main-header .container {
+                gap: 15px;
+            }
+            .professor-item {
+                /* در موبایل، کارت استادان ستونی می‌شود */
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .professor-link {
+                /* دکمه لینک گروه/کانال تمام عرض را می‌گیرد */
+                width: 100%;
+                text-align: center;
+            }
+            .category-button {
+                font-size: 1.5rem;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="site-wrapper">
+
+        <!-- بخش HTML: هدر و جستجو (بالا وسط) -->
+        <header class="main-header">
+            <div class="container">
+                <span class="logo" onclick="app.showPage('home')">Azad cs link</span>
+                <nav>
+                    <div class="search-area">
+                        <input type="text" id="search-input" placeholder="جستجوی درس...">
+                        <div id="search-results"></div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container">
+            
+            <!-- 1. صفحه اصلی: دسته‌بندی‌ها -->
+            <section id="home-page" class="app-page active">
+                <section class="hero-section" style="text-align: center; padding: 20px 0 50px;">
+                    <h1 style="font-size: 2rem; color: var(--color-text-main); margin-bottom: 10px;">به پورتال لینک‌های کلاسی خوش آمدید</h1>
+                    <p style="color: var(--color-text-secondary); font-size: 1.1rem;">دروس ترم جاری را بر اساس دسته‌بندی مشاهده کنید و لینک‌های گروه‌ها یا کانال‌های اساتید را دریافت نمایید.</p>
+                </section>
+
+                <div class="category-grid">
+                    <div class="category-button" onclick="app.showCourseList('اختصاصی')">دروس اختصاصی (کامپیوتر)</div>
+                    <div class="category-button" onclick="app.showCourseList('عمومی')">دروس عمومی (معارف، ریاضی و...)</div>
+                </div>
+            </section>
+
+            <!-- 2. صفحه لیست دروس: نمایش بر اساس دسته‌بندی -->
+            <section id="course-list-page" class="app-page">
+                <a href="#" class="back-button" onclick="app.showPage('home')">← بازگشت به دسته‌بندی‌ها</a>
+                <h2 id="course-list-title" style="color:var(--color-primary); margin-bottom: 20px;"></h2>
+                <div id="course-list-container" class="course-grid">
+                    <!-- دروس اینجا توسط JS بارگذاری می‌شوند -->
+                </div>
+            </section>
+            
+            <!-- 3. صفحه لیست استادان: نمایش استادان یک درس خاص -->
+            <section id="professor-list-page" class="app-page">
+                <a href="#" class="back-button" onclick="app.goBackToCourseList()">← بازگشت به لیست دروس</a>
+                <h2 id="professor-list-title" style="color:var(--color-primary); margin-bottom: 30px; text-align: center;"></h2>
+                <ul id="professor-list-container" class="professor-list">
+                    <!-- استادان اینجا توسط JS بارگذاری می‌شوند -->
+                </ul>
+            </section>
+
+        </main>
+
+        <!-- بخش HTML: فوتر -->
+        <footer>
+            <div class="container">
+                <p>
+                    برای گزارش مشکل یا پیشنهاد و یا ارسال لینک گروه‌های کلاسی ممنون میشم پیام بدید: 
+                    <a href="https://t.me/Omid_h_tt" target="_blank">Omid_h_tt</a>
+                </p>
+                <p style="margin-top: 5px; font-size: 0.8rem;">نسخه ۱.۰ | طراحی شده با عشق برای دانشجویان کامپیوتر</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        /* ========================================
+           بخش JavaScript: منطق برنامه و داده‌ها
+           ========================================
+        */
+        
+        // ** داده‌های اصلی (قابل ویرایش برای ترم‌های جدید) **
+        const DATA_STRUCTURE = [
+            {
+                name: "ریاضی عمومی ۱",
+                code: "MATH 101",
+                category: "عمومی",
+                accent: "#00A381", 
+                professors: [
+                    { name: "دکتر احمدی", role: "گروه اصلی + تمرین", link: "https://t.me/AhmadiMath1", type: "group" },
+                    { name: "دکتر بهرامی", role: "کانال اطلاعیه‌ها", link: "https://t.me/BahramiChannel", type: "channel" }
+                ]
+            },
+            {
+                name: "فیزیک پایه ۲",
+                code: "PHY 102",
+                category: "عمومی",
+                accent: "#3F72AF",
+                professors: [
+                    { name: "دکتر کریمی", role: "گروه پرسش و پاسخ", link: "https://t.me/KarimiPhysics", type: "group" },
+                ]
+            },
+            {
+                name: "ساختمان داده",
+                code: "CS 203",
+                category: "اختصاصی",
+                accent: "#FFC300",
+                professors: [
+                    { name: "دکتر رضایی", role: "تنها گروه رسمی درس", link: "https://t.me/RezaeiDS", type: "group" },
+                    { name: "مهندس امینی", role: "حل تمرین و کوییز", link: "https://t.me/AminHaltamrinDS", type: "group" }
+                ]
+            },
+            {
+                name: "اصول طراحی کامپایلر",
+                code: "CS 420",
+                category: "اختصاصی",
+                accent: "#FF6347",
+                professors: [
+                    { name: "دکتر سلطانی", role: "کانال اطلاع‌رسانی", link: "https://t.me/SoltaniCompiler", type: "channel" },
+                ]
+            },
+            {
+                name: "معارف اسلامی",
+                code: "ISL 001",
+                category: "عمومی",
+                accent: "#6A5ACD",
+                professors: [
+                    { name: "حجت الاسلام محمدی", role: "گروه مباحث عمومی", link: "https://t.me/MohamadiMaarif", type: "group" },
+                ]
+            },
+            {
+                name: "شبکه‌های کامپیوتری",
+                code: "CS 405",
+                category: "اختصاصی",
+                accent: "#607d8b",
+                professors: [
+                    { name: "دکتر میرزایی", role: "گروه اصلی درس", link: "https://t.me/MirzaeiNetworks", type: "group" },
+                    { name: "مهندس یوسفی", role: "لینک فایل‌ها", link: "https://t.me/YousefiFiles", type: "channel" }
+                ]
+            },
+            {
+                name: "هوش مصنوعی",
+                code: "CS 450",
+                category: "اختصاصی",
+                accent: "#ff9800",
+                professors: [
+                    { name: "دکتر حسینی", role: "کانال رسمی کلاس", link: "https://t.me/HosseiniAI", type: "channel" },
+                ]
+            }
+        ];
+
+        // شیء مدیریت وضعیت برنامه (SPA Logic)
+        const app = {
+            currentPage: 'home',
+            currentCategory: null,
+            
+            /**
+             * نمایش صفحه مورد نظر و مخفی کردن سایر صفحات
+             * @param {string} pageId - شناسه صفحه (مانند 'home', 'course-list')
+             */
+            showPage(pageId) {
+                document.querySelectorAll('.app-page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId + '-page').classList.add('active');
+                this.currentPage = pageId;
+
+                // بستن نتایج جستجو
+                document.getElementById('search-results').innerHTML = '';
+            },
+
+            /**
+             * نمایش لیست دروس بر اساس دسته‌بندی
+             * @param {string} category - نام دسته‌بندی
+             */
+            showCourseList(category) {
+                this.currentCategory = category;
+                this.showPage('course-list');
+                
+                const titleElement = document.getElementById('course-list-title');
+                const container = document.getElementById('course-list-container');
+                container.innerHTML = '';
+                
+                titleElement.textContent = `دروس ${category}`;
+
+                const filteredCourses = DATA_STRUCTURE.filter(course => course.category === category);
+
+                if (filteredCourses.length === 0) {
+                    container.innerHTML = `<p class="no-results">درسی در این دسته‌بندی پیدا نشد.</p>`;
+                    return;
+                }
+
+                filteredCourses.forEach(course => {
+                    const tile = document.createElement('div');
+                    tile.className = 'course-tile';
+                    // استایل گذاری داینامیک می‌تواند در اینجا انجام شود
+                    tile.innerHTML = `
+                        ${course.name}
+                        <span class="code">${course.code}</span>
+                    `;
+                    tile.onclick = () => this.showProfessorList(course.name);
+                    container.appendChild(tile);
+                });
+            },
+            
+            /**
+             * بازگشت از صفحه استادان به لیست دروس (حفظ دسته‌بندی قبلی)
+             */
+            goBackToCourseList() {
+                if (this.currentCategory) {
+                    this.showCourseList(this.currentCategory);
+                } else {
+                    this.showPage('home'); 
+                }
+            },
+
+            /**
+             * نمایش لیست استادان یک درس خاص
+             * @param {string} courseName - نام درس
+             */
+            showProfessorList(courseName) {
+                this.showPage('professor-list');
+                
+                const titleElement = document.getElementById('professor-list-title');
+                const container = document.getElementById('professor-list-container');
+                container.innerHTML = '';
+
+                const course = DATA_STRUCTURE.find(c => c.name === courseName);
+                
+                if (!course) {
+                    titleElement.textContent = "درس مورد نظر پیدا نشد.";
+                    return;
+                }
+                
+                titleElement.textContent = `لینک‌های استادان درس: ${course.name} (${course.code})`;
+
+                if (course.professors.length === 0) {
+                    container.innerHTML = `<p class="no-results">لینک گروهی برای این درس ثبت نشده است.</p>`;
+                    return;
+                }
+                
+                course.professors.forEach(prof => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'professor-item';
+                    
+                    let buttonText = prof.type === 'channel' ? 'ورود به کانال ➔' : 'ورود به گروه ➔';
+                    
+                    // تعیین رنگ دکمه بر اساس نوع لینک
+                    let buttonClass = prof.type === 'channel' ? 'professor-link channel-link-style' : 'professor-link group-link-style';
+
+
+                    listItem.innerHTML = `
+                        <div class="professor-info">
+                            <h3>${prof.name}</h3>
+                            <span>${prof.role}</span>
+                        </div>
+                        <a href="${prof.link}" class="${buttonClass}" target="_blank">
+                           ${buttonText}
+                        </a>
+                    `;
+                    container.appendChild(listItem);
+                });
+            },
+            
+            /**
+             * تنظیم رویدادهای جستجوی بلادرنگ
+             */
+            setupSearch() {
+                const input = document.getElementById('search-input');
+                const resultsContainer = document.getElementById('search-results');
+
+                input.addEventListener('input', () => {
+                    const query = input.value.trim().toLowerCase();
+                    resultsContainer.innerHTML = '';
+
+                    if (query.length < 2) {
+                        return;
+                    }
+                    
+                    const searchResults = DATA_STRUCTURE.filter(course => 
+                        course.name.toLowerCase().includes(query) || course.code.toLowerCase().includes(query)
+                    );
+
+                    if (searchResults.length === 0) {
+                        resultsContainer.innerHTML = `<div class="result-item no-hover" style="color:var(--color-text-secondary); cursor: default;">درس مورد نظر پیدا نشد.</div>`;
+                        return;
+                    }
+
+                    searchResults.forEach(course => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'result-item';
+                        resultItem.innerHTML = `${course.name} <span style="font-size:0.8em; color:var(--color-text-secondary);">${course.code} - ${course.category}</span>`;
+                        
+                        resultItem.onclick = () => {
+                            this.showProfessorList(course.name);
+                            input.value = ''; 
+                            resultsContainer.innerHTML = '';
+                        };
+                        resultsContainer.appendChild(resultItem);
+                    });
+                });
+                
+                // بستن نتایج جستجو هنگام کلیک در جای دیگر
+                document.addEventListener('click', (e) => {
+                    if (!input.contains(e.target) && !resultsContainer.contains(e.target)) {
+                        resultsContainer.innerHTML = '';
+                    }
+                });
+            }
+        };
+
+        // راه‌اندازی برنامه
+        document.addEventListener('DOMContentLoaded', () => {
+            app.setupSearch();
+            app.showPage('home'); 
+        });
+
+    </script>
+</body>
+</html>
