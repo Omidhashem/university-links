@@ -1,0 +1,369 @@
+/* ========================================
+   متغیرهای CSS (Dark & Elegant Theme)
+   ========================================
+*/
+:root {
+    /* رنگ‌های اصلی */
+    --color-primary: #1e87f0; /* آبی فیروزه‌ای قوی برای تمرکز (Stripe's Blue) */
+    --color-accent: #00c9b1; /* سبز روشن برای دکمه‌های کانال */
+    --color-text-main: #f0f0f0; /* متن سفید/روشن */
+    --color-text-secondary: #a0a0a0; /* متن ثانویه */
+    --color-bg-deep: #0e1014; /* پس‌زمینه اصلی (مانند Awwwards یا Dashboards) */
+    --color-bg-card: rgba(255, 255, 255, 0.05); /* پس‌زمینه شیشه‌ای شفاف */
+    --color-border-subtle: rgba(255, 255, 255, 0.1); /* خط جداکننده شیشه‌ای */
+
+    /* تنظیمات ظاهری */
+    --shadow-depth: 0 10px 30px rgba(0, 0, 0, 0.5); /* سایه عمیق برای عمق دادن */
+    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.7); 
+    --radius-large: 16px;
+    --font-main: 'Vazirmatn', sans-serif;
+}
+
+/* ========================================
+   ریست و بدنه (Body Reset & Setup)
+   ========================================
+*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg-deep);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    direction: rtl;
+    min-height: 100vh;
+    /* تنظیمات برای انیمیشن آرام در ابتدا */
+    opacity: 0;
+    animation: pageLoadFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes pageLoadFadeIn {
+    to { opacity: 1; }
+}
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ========================================
+   هدر (Header - Sticky & Minimal)
+   ========================================
+*/
+.main-header {
+    background-color: rgba(14, 16, 20, 0.95); /* کمی شفافیت برای عمق بیشتر */
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: 18px 0;
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px); /* افکت بلور برای شیشه‌ای شدن هدر */
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    text-shadow: 0 0 10px rgba(30, 135, 240, 0.5);
+}
+
+nav a {
+    color: var(--color-text-main);
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 30px;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--color-primary);
+}
+
+.cta-link {
+    background: linear-gradient(90deg, var(--color-primary), #00C9B1);
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    margin-right: 0;
+    transition: transform 0.2s;
+}
+
+.cta-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(30, 135, 240, 0.5);
+}
+
+/* ========================================
+   بخش معرفی (Hero Section - Apple Style)
+   ========================================
+*/
+.hero-section {
+    padding: 80px 0 100px;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem; /* فونت بسیار بزرگ و واضح */
+    font-weight: 900;
+    max-width: 900px;
+    margin: 0 auto 20px;
+    /* Gradient Text Effect (Stripe Style) */
+    background: linear-gradient(120deg, var(--color-text-main) 30%, var(--color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Fallback */
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    max-width: 750px;
+    margin: 0 auto;
+    font-weight: 300;
+}
+
+/* ========================================
+   چیدمان گرید دروس (Course Grid)
+   ========================================
+*/
+.course-grid {
+    display: grid;
+    /* ریسپانسیو عالی: سه ستون در دسکتاپ، دو ستون در تبلت، یک ستون در موبایل */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    padding-bottom: 80px;
+}
+
+/* ========================================
+   کارت هر درس (Course Card - Glassmorphism)
+   ========================================
+*/
+.course-card {
+    background-color: var(--color-bg-card); /* شفافیت */
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-depth);
+    border: 1px solid var(--color-border-subtle); 
+    overflow: hidden;
+    /* * مهم: افکت شیشه‌ای/بلور * */
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* انیمیشن محو شدن هنگام ورود به صفحه */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cardEntrance 0.6s ease-out forwards;
+}
+
+/* تاخیر در نمایش کارت‌ها */
+.course-card:nth-child(2) { animation-delay: 0.1s; }
+.course-card:nth-child(3) { animation-delay: 0.2s; }
+.course-card:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes cardEntrance {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-header {
+    padding: 25px;
+    position: relative;
+    border-bottom: 1px solid var(--color-border-subtle);
+
+    /* خط رنگی پویا بر اساس متغیر CSS در HTML */
+    border-left: 5px solid var(--card-accent, var(--color-primary)); 
+}
+
+.card-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--card-accent, var(--color-primary));
+}
+
+.course-code {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    margin-top: 5px;
+    display: block;
+}
+
+/* برچسب کتگوری (Awwwards/Stripe Style) */
+.course-card::before {
+    content: attr(data-category);
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 50px;
+    background-color: var(--card-accent, var(--color-primary));
+    color: var(--color-bg-deep);
+    opacity: 0.8;
+}
+
+/* ========================================
+   لیست استادان و دکمه‌ها
+   ========================================
+*/
+.professor-list {
+    list-style: none;
+    padding: 0;
+}
+
+.professor-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-top: 1px solid var(--color-border-subtle);
+    transition: background-color 0.2s;
+}
+
+.professor-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.professor-info h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.professor-info span {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.link-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.link-button {
+    text-decoration: none;
+    color: var(--color-bg-deep);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.group-link {
+    background-color: var(--color-primary); 
+}
+
+.group-link:hover {
+    background-color: #3f9bff;
+    transform: scale(1.05);
+}
+
+.channel-link {
+    background-color: var(--color-accent);
+}
+
+.channel-link:hover {
+    background-color: #00e0b3;
+    transform: scale(1.05);
+}
+
+/* ========================================
+   فوتر (Footer - Clean & Simple)
+   ========================================
+*/
+footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: auto; 
+    border-top: 1px solid var(--color-border-subtle);
+    background-color: var(--color-bg-deep);
+}
+
+footer p {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.footer-link {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+/* ========================================
+   ریسپانسیو (Mobile Adjustments)
+   ========================================
+*/
+@media (max-width: 992px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .course-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .main-header .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-link {
+        margin: 0 8px;
+    }
+    
+    .hero-section {
+        padding: 40px 0 60px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .professor-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .link-actions {
+        width: 100%;
+        display: grid; 
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .link-button {
+        width: 100%; 
+        min-width: unset;
+    }
+}
